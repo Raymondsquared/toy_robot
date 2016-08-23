@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ToyRobot.Commands;
 using ToyRobot.Commands.Implementations;
 using ToyRobot.Exceptions;
 using ToyRobot.Models;
@@ -77,6 +76,22 @@ namespace ToyRobot.UnitTest
             Assert.AreEqual(receiver.X, 1);
             Assert.AreEqual(receiver.Y, 1);
             Assert.AreEqual(receiver.Direction, ENUMERATIONS.DIRECTIONS.NORTH);
+            Assert.AreEqual(receiver.IsValid, true);
+        }
+        [TestMethod]
+        public void ShouldOverideTheFirstPlaceMapWithNewPlace()
+        {
+            var map = new TableTop(5, 5);
+            var receiver = new Robot();
+
+            var command1 = new PlaceCommand(receiver, map, 1, 1, ENUMERATIONS.DIRECTIONS.NORTH);
+            command1.Execute();
+            var command2 = new PlaceCommand(receiver, map, 4, 4, ENUMERATIONS.DIRECTIONS.WEST);
+            command2.Execute();
+            Assert.AreEqual(receiver.Map, map);
+            Assert.AreEqual(receiver.X, 4);
+            Assert.AreEqual(receiver.Y, 4);
+            Assert.AreEqual(receiver.Direction, ENUMERATIONS.DIRECTIONS.WEST);
             Assert.AreEqual(receiver.IsValid, true);
         }
     }

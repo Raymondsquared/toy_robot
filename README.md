@@ -80,3 +80,7 @@ we use GIT very heavily. We also are strong believers in testing at the developm
 
 The source files, the test data and any test code.
 The GIT source control repo. 
+
+### Test data
+
+Test data is available in "TestData" folder.

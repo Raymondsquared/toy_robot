@@ -7,7 +7,7 @@ namespace ToyRobot.Commands
     ///</summary>
     public class Invoker : IInvoker
     {
-        private ICommand _command;
+        private readonly ICommand _command;
 
         public Invoker(ICommand command)
         {

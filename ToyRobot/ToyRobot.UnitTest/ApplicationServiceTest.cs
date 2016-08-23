@@ -1,8 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ToyRobot.Abstractions;
 using ToyRobot.Commands;
-using ToyRobot.Commands.Implementations;
 using ToyRobot.Models;
+using ToyRobot.Providers;
 using ToyRobot.Services;
 
 namespace ToyRobot.UnitTest
@@ -10,10 +10,10 @@ namespace ToyRobot.UnitTest
     [TestClass]
     public class ApplicationServiceTest
     {
-        private static Map _map = new TableTop(CONSTANTS.NUMBERS.TABLETOP_WIDTH, CONSTANTS.NUMBERS.TABLETOP_LENGTH);
-        private static Receiver _receiver = Controller.GetReceiver();
+        private static readonly Map _map = new TableTop(CONSTANTS.NUMBERS.TABLETOP_WIDTH, CONSTANTS.NUMBERS.TABLETOP_LENGTH);
+        private static readonly Receiver _receiver = new ReceiverProvider().Provide();
 
-        IApplicationService _applicationService = new ApplicationService(_map, _receiver);
+        readonly IApplicationService _applicationService = new ApplicationService(_map, _receiver);
 
         [TestMethod]
         public void ShouldReturnFalseWithInvalidInput()
@@ -51,7 +51,7 @@ namespace ToyRobot.UnitTest
         public void ShouldReturnFalseWithExtraOnOtherMethods()
         {
             Assert.IsFalse(_applicationService.Process("MOVE 1"));
-            Assert.IsFalse(_applicationService.Process("LFET 2"));
+            Assert.IsFalse(_applicationService.Process("LEFT 2"));
             Assert.IsFalse(_applicationService.Process("RIGHT LEFT"));
             Assert.IsFalse(_applicationService.Process("REPORT 123"));
         }
@@ -97,6 +97,21 @@ namespace ToyRobot.UnitTest
         public void ShouldReturnTrueWithValidReport()
         {
             Assert.IsTrue(_applicationService.Process("REPORT"));
+        }
+
+
+        [TestMethod]
+        public void ShouldIgnoreAllCommandBeforePlace()
+        {
+            Assert.IsTrue(_applicationService.Process("MOVE"));
+            Assert.IsTrue(_applicationService.Process("LEFT"));
+            Assert.IsTrue(_applicationService.Process("LEFT"));
+            Assert.IsTrue(_applicationService.Process("PLACE 1,2,NORTH"));
+            Assert.IsTrue(_applicationService.Process("LEFT"));
+
+            Assert.AreEqual(_receiver.X, 1);
+            Assert.AreEqual(_receiver.Y, 2);
+            Assert.AreEqual(_receiver.Direction, ENUMERATIONS.DIRECTIONS.WEST);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿namespace ToyRobot.Abstractions
 {
     ///<summary>
-    /// Command Interface for Command Pattern
+    /// ICommand interface for Command Pattern
     ///</summary>
     public interface ICommand
     {

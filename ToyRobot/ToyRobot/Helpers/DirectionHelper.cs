@@ -2,11 +2,11 @@
 
 namespace ToyRobot.Helpers
 {
-    public class DirectionHelpers
+    public class DirectionHelper
     {
         public static ENUMERATIONS.DIRECTIONS Convert(string input)
         {
-            ENUMERATIONS.DIRECTIONS result = ENUMERATIONS.DIRECTIONS.UNKNOWN;
+            var result = ENUMERATIONS.DIRECTIONS.UNKNOWN;
             try
             {
                 switch (input)

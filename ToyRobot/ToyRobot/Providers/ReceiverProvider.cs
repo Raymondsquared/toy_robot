@@ -1,14 +1,14 @@
 ﻿using ToyRobot.Abstractions;
 using ToyRobot.Models;
 
-namespace ToyRobot.Commands
+namespace ToyRobot.Providers
 {
     ///<summary>
     /// Controller that create new instance of robot for Command Pattern
     ///</summary>
-    public class Controller
+    public class ReceiverProvider : IProvider<Receiver>
     {
-        public static Receiver GetReceiver()
+        public Receiver Provide()
         {
             return new Robot();
         }

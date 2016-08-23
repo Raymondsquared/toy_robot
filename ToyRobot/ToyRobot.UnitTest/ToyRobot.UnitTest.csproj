@@ -54,7 +54,6 @@
     <Compile Include="TurnCommandTest.cs" />
     <Compile Include="MoveCommandTest.cs" />
     <Compile Include="PlaceCommandTest.cs" />
-    <Compile Include="RobotTest.cs" />
     <Compile Include="TableTopTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
