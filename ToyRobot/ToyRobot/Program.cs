@@ -1,7 +1,9 @@
 ﻿using System;
+using Autofac;
 using ToyRobot.Abstractions;
 using ToyRobot.Commands;
 using ToyRobot.Helpers;
+using ToyRobot.IoC;
 using ToyRobot.Models;
 using ToyRobot.Providers;
 using ToyRobot.Services;
@@ -18,19 +20,19 @@ namespace ToyRobot
     ///</remarks>
     public class Program
     {
-        public static Map Map;
-        
         private static IApplicationService _applicationService;
-        private static IProvider<Receiver> _receiverProvider;
-
+        
         public static void Main(string[] args)
         {
-            var mapWidth = ConfigHelper.LoadOrDefault(CONSTANTS.TEXTS.CONFIG_MAP_WIDTH, CONSTANTS.NUMBERS.TABLETOP_WIDTH);
-            var mapLength = ConfigHelper.LoadOrDefault(CONSTANTS.TEXTS.CONFIG_MAP_LENGTH, CONSTANTS.NUMBERS.TABLETOP_WIDTH);
-            Map = new TableTop(mapWidth, mapLength);
+            /* Autofac DI Container */
+            var builder = new ContainerBuilder();
+            builder.RegisterModule<BindingModule>();
+            IContainer container = builder.Build();
+            
+            var map = container.Resolve<Map>(); ;
+            var receiverProvider = container.Resolve<IProvider<Receiver>>();
 
-            _receiverProvider = new ReceiverProvider();
-            _applicationService = new ApplicationService(Map, _receiverProvider.Provide());
+            _applicationService = new ApplicationService(map, receiverProvider.Provide());
 
             /*
              * handle file & keyboard input differently
