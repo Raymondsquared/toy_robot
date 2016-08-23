@@ -10,7 +10,8 @@
             NORTH,
             EAST,
             SOUTH,
-            WEST
+            WEST,
+            UNKNOWN
         }
 
         public enum TURNS

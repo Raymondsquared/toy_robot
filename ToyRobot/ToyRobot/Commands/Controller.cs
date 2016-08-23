@@ -1,7 +1,7 @@
 ﻿using ToyRobot.Abstractions;
 using ToyRobot.Models;
 
-namespace ToyRobot
+namespace ToyRobot.Commands
 {
     ///<summary>
     /// Controller that create new instance of robot for Command Pattern

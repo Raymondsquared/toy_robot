@@ -1,6 +1,6 @@
 ﻿using ToyRobot.Abstractions;
 
-namespace ToyRobot
+namespace ToyRobot.Commands
 {
     ///<summary>
     /// Concrete implementation of IInvoker interface for Command Pattern

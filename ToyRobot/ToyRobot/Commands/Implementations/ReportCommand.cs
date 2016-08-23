@@ -1,7 +1,7 @@
 ﻿using System;
 using ToyRobot.Abstractions;
 
-namespace ToyRobot.Commands
+namespace ToyRobot.Commands.Implementations
 {
     ///<summary>
     /// Concrete implementation of ICommand interface for Command Pattern
