@@ -11,16 +11,16 @@ namespace ToyRobot
     {
         public static void Main(string[] args)
         {
-            IMap map = new TableTop(5, 5);
-            IReveicer reveicer = Controller.GetReceiver(map);
+            Map map = new TableTop(CONSTANTS.NUMBERS.TABLETOP_WIDTH, CONSTANTS.NUMBERS.TABLETOP_LENGTH);
+            Receiver receiver = Controller.GetReceiver();
 
             /*
              * Bind receivers to the commands
              */
-            ICommand placeCommand = new PlaceCommand(reveicer);
-            ICommand moveCommand = new MoveCommand(reveicer);
-            ICommand turnCommand = new TurnCommand(reveicer);
-            ICommand reportCommand = new ReportCommand(reveicer);
+            ICommand placeCommand = new PlaceCommand(receiver, map, 1, 2, ENUMERATIONS.DIRECTIONS.NORTH);
+            ICommand moveCommand = new MoveCommand(receiver);
+            ICommand turnCommand = new TurnCommand(receiver, ENUMERATIONS.TURNS.LEFT);
+            ICommand reportCommand = new ReportCommand(receiver);
 
             /*
              * Bind commands to the invokers
@@ -30,10 +30,10 @@ namespace ToyRobot
             IInvoker onTurnInvoked = new Invoker(turnCommand);
             IInvoker onReportInvoked = new Invoker(reportCommand);
 
-            //onPlaceInvoked.Invoke();
-            //onMoveInvoked.Invoke();
-            //onTurnInvoked.Invoke();
-            //onReportInvoked.Invoke();
+            onPlaceInvoked.Invoke();
+            onMoveInvoked.Invoke();
+            onTurnInvoked.Invoke();
+            onReportInvoked.Invoke();
         }        
     }
 }

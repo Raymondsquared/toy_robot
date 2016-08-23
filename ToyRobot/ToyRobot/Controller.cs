@@ -8,9 +8,9 @@ namespace ToyRobot
     ///</summary>
     public class Controller
     {
-        public static IReveicer GetReceiver(IMap input)
+        public static Receiver GetReceiver()
         {
-            return new Robot(input);
+            return new Robot();
         }
     }
 }

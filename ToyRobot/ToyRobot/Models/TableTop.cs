@@ -1,28 +1,20 @@
 ﻿using ToyRobot.Abstractions;
+using ToyRobot.Exceptions;
 
 namespace ToyRobot.Models
 {
     ///<summary>
     /// Concrete implementation of IMap interface
     ///</summary>
-    public class TableTop : IMap
+    public class TableTop : Map
     {
-        private readonly int _width;
-        private readonly int _length;
-
         public TableTop(int width, int length)
         {
-            _width = width;
-            _length = length;
-        }
+            if (width < 1 || length < 1)
+                throw new InvalidMapException("Table top size has to be bigger than 0");
 
-        public int GetWidth()
-        {
-            return _width;
-        }
-        public int GetLength()
-        {
-            return _length;
+            Width = width;
+            Length = length;
         }
     }
 }

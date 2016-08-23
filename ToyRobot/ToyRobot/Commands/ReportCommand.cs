@@ -11,16 +11,19 @@ namespace ToyRobot.Commands
     ///</remarks>
     public class ReportCommand : ICommand
     {
-        private IReveicer _receiver;
+        private Receiver _receiver;
 
-        public ReportCommand(IReveicer receiver)
+        public ReportCommand(Receiver receiver)
         {
             _receiver = receiver;
         }
 
         public void Execute()
         {
-            throw new NotImplementedException();
+            if (_receiver.IsValid)
+            {
+                Console.WriteLine($"{_receiver.X},{_receiver.Y},{_receiver.Direction}");
+            }
         }
     }
 }

@@ -5,9 +5,5 @@ namespace ToyRobot.UnitTest
     [TestClass]
     public class RobotTest
     {
-        [TestMethod]
-        public void TestMethod1()
-        {
-        }
     }
 }

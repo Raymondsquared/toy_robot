@@ -1,6 +1,4 @@
-﻿using ToyRobot.Models;
-
-namespace ToyRobot
+﻿namespace ToyRobot
 {
     ///<summary>
     /// Collection of constants
@@ -11,7 +9,9 @@ namespace ToyRobot
         {
         }
         public class NUMBERS
-        {            
+        {
+            public const int TABLETOP_WIDTH = 5;
+            public const int TABLETOP_LENGTH = 5;
         }
     }
 }

@@ -12,5 +12,11 @@
             SOUTH,
             WEST
         }
+
+        public enum TURNS
+        {
+            LEFT,
+            RIGHT,
+        }
     }
 }

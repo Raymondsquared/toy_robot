@@ -44,7 +44,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstractions\IInvoker.cs" />
-    <Compile Include="Abstractions\IMap.cs" />
+    <Compile Include="Abstractions\Map.cs" />
+    <Compile Include="Exceptions\InvalidReceiverException.cs" />
     <Compile Include="Exceptions\InvalidMapException.cs" />
     <Compile Include="Commands\TurnCommand.cs" />
     <Compile Include="Commands\ReportCommand.cs" />
@@ -52,7 +53,7 @@
     <Compile Include="Commands\PlaceCommand.cs" />
     <Compile Include="Abstractions\ICommand.cs" />
     <Compile Include="Controller.cs" />
-    <Compile Include="Abstractions\IReveicer.cs" />
+    <Compile Include="Abstractions\Receiver.cs" />
     <Compile Include="Enumerations.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Models\Robot.cs" />
