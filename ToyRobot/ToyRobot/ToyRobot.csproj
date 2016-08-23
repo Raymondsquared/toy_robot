@@ -43,8 +43,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstractions\IInvoker.cs" />
+    <Compile Include="Abstractions\IMap.cs" />
+    <Compile Include="Exceptions\InvalidMapException.cs" />
+    <Compile Include="Commands\TurnCommand.cs" />
+    <Compile Include="Commands\ReportCommand.cs" />
+    <Compile Include="Commands\MoveCommand.cs" />
+    <Compile Include="Commands\PlaceCommand.cs" />
+    <Compile Include="Abstractions\ICommand.cs" />
+    <Compile Include="Controller.cs" />
+    <Compile Include="Abstractions\IReveicer.cs" />
+    <Compile Include="Enumerations.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="Models\Robot.cs" />
+    <Compile Include="Models\TableTop.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Invoker.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
