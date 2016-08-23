@@ -8,39 +8,36 @@ namespace ToyRobot.Loggers
 {
     public class InMemoryLogger : ILogger
     {
-        private static IList<KeyValuePair<ENUMERATIONS.LOG_LEVEL, string>> _repository;
+        private static IList<string> _repository;
 
         public InMemoryLogger()
         {
-            _repository = new List<KeyValuePair<ENUMERATIONS.LOG_LEVEL, string>>();
+            _repository = new List<string>();
         }
 
         public void Debug(string message, params object[] p)
         {
-            _repository.Add(new KeyValuePair<ENUMERATIONS.LOG_LEVEL, string>(ENUMERATIONS.LOG_LEVEL.DEBUG, message));
+            _repository.Add($"{ENUMERATIONS.LOG_LEVEL.DEBUG} {DateTime.UtcNow} {message}");
         }
         public void Info(string message, params object[] p)
         {
-            _repository.Add(new KeyValuePair<ENUMERATIONS.LOG_LEVEL, string>(ENUMERATIONS.LOG_LEVEL.INFO, message));
+            _repository.Add($"{ENUMERATIONS.LOG_LEVEL.INFO} {DateTime.UtcNow} {message}");
         }
         public void Warn(string message, params object[] p)
         {
-            _repository.Add(new KeyValuePair<ENUMERATIONS.LOG_LEVEL, string>(ENUMERATIONS.LOG_LEVEL.WARN, message));
+            _repository.Add($"{ENUMERATIONS.LOG_LEVEL.WARN} {DateTime.UtcNow} {message}");
         }
         public void Error(Exception ex, string message, params object[] p)
         {
-            _repository.Add(new KeyValuePair<ENUMERATIONS.LOG_LEVEL, string>(ENUMERATIONS.LOG_LEVEL.ERROR, message));
+            _repository.Add($"{ENUMERATIONS.LOG_LEVEL.ERROR} {DateTime.UtcNow} {message}");
         }
 
         public string GetLogs()
         {
-            StringBuilder qb = new StringBuilder();
+            var qb = new StringBuilder();
             foreach (var log in _repository)
             {
-                qb.Append(log.Key);
-                qb.Append(" : ");
-                qb.Append(log.Value);
-                qb.Append(Environment.NewLine);
+                qb.Append(log);
             }
             return qb.ToString();
         }
