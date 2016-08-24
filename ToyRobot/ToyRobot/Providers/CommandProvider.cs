@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using ToyRobot.Abstractions;
+using ToyRobot.Infrastructure.Abstractions;
 
 namespace ToyRobot.Providers
 {

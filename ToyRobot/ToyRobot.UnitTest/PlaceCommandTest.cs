@@ -1,7 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ToyRobot.Commands.Implementations;
-using ToyRobot.Exceptions;
-using ToyRobot.Models;
+using ToyRobot.Core.Commands.Implementations;
+using ToyRobot.Core.Models;
+using ToyRobot.Infrastructure;
+using ToyRobot.Infrastructure.Exceptions;
 
 namespace ToyRobot.UnitTest
 {

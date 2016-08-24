@@ -1,11 +1,11 @@
 ﻿using System;
 using Autofac;
 using ToyRobot.Abstractions;
-using ToyRobot.Commands;
-using ToyRobot.Helpers;
+using ToyRobot.Core.Abstractions;
+using ToyRobot.Handler;
+using ToyRobot.Infrastructure;
+using ToyRobot.Infrastructure.Abstractions;
 using ToyRobot.IoC;
-using ToyRobot.Models;
-using ToyRobot.Providers;
 using ToyRobot.Services;
 
 namespace ToyRobot
@@ -27,7 +27,7 @@ namespace ToyRobot
             /* Autofac DI Container */
             var builder = new ContainerBuilder();
             builder.RegisterModule<BindingModule>();
-            IContainer container = builder.Build();
+            var container = builder.Build();
             
             var map = container.Resolve<Map>(); ;
             var receiverProvider = container.Resolve<IProvider<Receiver>>();
@@ -38,59 +38,14 @@ namespace ToyRobot
              * handle file & keyboard input differently
              * Input can be from a file, or from standard input, as the developer chooses.
              */
-            if (args.Length > 2 && string.Equals(args[0], CONSTANTS.TEXTS.ARGUMENT_FILE))
+            if (args.Length > 1 && string.Equals(args[0], CONSTANTS.TEXTS.ARGUMENT_FILE))
             {
-                HandleFile(args);
+                new FileInputHandler().Handle(args, _applicationService);
             }
             else
             {
-                HandleKeyboard();
+                new KeyboardInputHandler().Handle(args, _applicationService);
             }
-        }
-
-        ///<summary>
-        /// handle file input, pass the logic to application service layer
-        ///</summary>    
-        static void HandleFile(string[] args)
-        {
-            var file = args[1];
-
-            Console.WriteLine("Reading file from : " + file + "\n");
-            try
-            {
-                var lines = System.IO.File.ReadAllLines(file);
-
-                foreach (var line in lines)
-                {
-                    _applicationService.Process(line);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("error when reading file: " + ex.Message);
-            }
-        }
-
-        ///<summary>
-        /// handle keyboard inputs, pass the logic to application service layer
-        ///</summary>    
-        ///<remarks>
-        /// command : -f "filename.txt" 
-        ///</remarks>
-        static void HandleKeyboard()
-        {
-            var success = false;
-
-            string input;
-            do
-            {
-                if (!success)
-                    Console.WriteLine(CONSTANTS.TEXTS.WELCOME);
-
-                input = Console.ReadLine();
-                success = _applicationService.Process(input);
-
-            } while (!string.Equals(input, CONSTANTS.TEXTS.COMMAND_EXIT));
-        }
+        }        
     }
 }

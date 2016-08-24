@@ -7,6 +7,21 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToyRobot", "ToyRobot\ToyRob
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToyRobot.UnitTest", "ToyRobot.UnitTest\ToyRobot.UnitTest.csproj", "{6A9C5057-F758-4614-80B9-9A42553EF312}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToyRobot.Core", "ToyRobot.Core\ToyRobot.Core.csproj", "{8F5ED403-A101-4878-8468-19B1E2C6ED31}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToyRobot.Infrastructure", "ToyRobot.Infrastructure\ToyRobot.Infrastructure.csproj", "{AEC002C5-DCF6-487E-B71B-1F6AF4E84187}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3E736983-B6D2-4F8D-90B5-5BB378516E6C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestData", "TestData", "{0C63F65D-B1A5-40E1-9FEE-AA58C50D360B}"
+	ProjectSection(SolutionItems) = preProject
+		TestData\test_data1.txt = TestData\test_data1.txt
+		TestData\test_data2.txt = TestData\test_data2.txt
+		TestData\test_data3.txt = TestData\test_data3.txt
+		TestData\test_data4.txt = TestData\test_data4.txt
+		TestData\test_data5.txt = TestData\test_data5.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,8 +36,19 @@ Global
 		{6A9C5057-F758-4614-80B9-9A42553EF312}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A9C5057-F758-4614-80B9-9A42553EF312}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A9C5057-F758-4614-80B9-9A42553EF312}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F5ED403-A101-4878-8468-19B1E2C6ED31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F5ED403-A101-4878-8468-19B1E2C6ED31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F5ED403-A101-4878-8468-19B1E2C6ED31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F5ED403-A101-4878-8468-19B1E2C6ED31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEC002C5-DCF6-487E-B71B-1F6AF4E84187}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEC002C5-DCF6-487E-B71B-1F6AF4E84187}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEC002C5-DCF6-487E-B71B-1F6AF4E84187}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEC002C5-DCF6-487E-B71B-1F6AF4E84187}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0C63F65D-B1A5-40E1-9FEE-AA58C50D360B} = {3E736983-B6D2-4F8D-90B5-5BB378516E6C}
 	EndGlobalSection
 EndGlobal

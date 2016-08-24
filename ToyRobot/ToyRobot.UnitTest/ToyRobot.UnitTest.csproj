@@ -58,6 +58,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ToyRobot.Core\ToyRobot.Core.csproj">
+      <Project>{8F5ED403-A101-4878-8468-19B1E2C6ED31}</Project>
+      <Name>ToyRobot.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ToyRobot.Infrastructure\ToyRobot.Infrastructure.csproj">
+      <Project>{AEC002C5-DCF6-487E-B71B-1F6AF4E84187}</Project>
+      <Name>ToyRobot.Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ToyRobot\ToyRobot.csproj">
       <Project>{cb8751bd-c91e-4b11-897b-88ce2030903d}</Project>
       <Name>ToyRobot</Name>

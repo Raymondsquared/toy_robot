@@ -1,5 +1,5 @@
-﻿using ToyRobot.Abstractions;
-using ToyRobot.Models;
+﻿using ToyRobot.Core.Abstractions;
+using ToyRobot.Infrastructure.Abstractions;
 
 namespace ToyRobot.Providers
 {
@@ -10,7 +10,7 @@ namespace ToyRobot.Providers
     {
         public Receiver Provide()
         {
-            return new Robot();
+            return new Core.Models.Robot();
         }
     }
 }

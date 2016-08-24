@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autofac;
-using ToyRobot.Abstractions;
-using ToyRobot.Helpers;
-using ToyRobot.Models;
+﻿using Autofac;
+using ToyRobot.Core.Abstractions;
+using ToyRobot.Core.Models;
+using ToyRobot.Infrastructure;
+using ToyRobot.Infrastructure.Abstractions;
+using ToyRobot.Infrastructure.Helpers;
+using ToyRobot.Infrastructure.Loggers;
 using ToyRobot.Providers;
-using ToyRobot.Services;
 
 namespace ToyRobot.IoC
 {
@@ -32,7 +29,7 @@ namespace ToyRobot.IoC
 
             //Command - Receiver Provider
             builder.RegisterType<ReceiverProvider>()
-                .As<IProvider<Receiver>>();
+                .As<IProvider<Receiver>>();            
         }
     }
 }

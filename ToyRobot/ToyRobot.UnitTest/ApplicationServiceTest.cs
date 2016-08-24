@@ -1,7 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ToyRobot.Abstractions;
-using ToyRobot.Commands;
-using ToyRobot.Models;
+using ToyRobot.Core.Abstractions;
+using ToyRobot.Core.Models;
+using ToyRobot.Infrastructure;
 using ToyRobot.Providers;
 using ToyRobot.Services;
 
