@@ -1,5 +1,8 @@
 # Toy Robot
 
+## Implementation in another language
+* [GO Lang](https://github.com/Raymondsquared/GO-Toy_Robot)
+
 ## Description
 
 * The application is a simulation of a toy robot moving on a square tabletop, of dimensions 5 units x 5 units.
