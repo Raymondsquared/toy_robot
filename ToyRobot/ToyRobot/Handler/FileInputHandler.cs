@@ -10,17 +10,22 @@ namespace ToyRobot.Handler
     {
         public void Handle(string[] args, IApplicationService applicationService)
         {
-            var file = args[1];
-
-            Console.WriteLine("Reading file from : " + file + "\n");
             try
             {
+                var file = args[1];
+
+                Console.WriteLine("Reading file from : " + file + "\n");
+
                 var lines = System.IO.File.ReadAllLines(file);
 
                 foreach (var line in lines)
                 {
                     applicationService.Process(line);
                 }
+            }
+            catch (IndexOutOfRangeException)
+            {
+                Console.WriteLine("error please specify file name.");
             }
             catch (Exception ex)
             {

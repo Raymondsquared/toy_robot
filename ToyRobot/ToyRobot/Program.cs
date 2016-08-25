@@ -29,7 +29,7 @@ namespace ToyRobot
             builder.RegisterModule<BindingModule>();
             var container = builder.Build();
             
-            var map = container.Resolve<Map>(); ;
+            var map = container.Resolve<Map>();
             var receiverProvider = container.Resolve<IProvider<Receiver>>();
 
             _applicationService = new ApplicationService(map, receiverProvider.Provide());
@@ -38,14 +38,18 @@ namespace ToyRobot
              * handle file & keyboard input differently
              * Input can be from a file, or from standard input, as the developer chooses.
              */
-            if (args.Length > 1 && string.Equals(args[0], CONSTANTS.TEXTS.ARGUMENT_FILE))
+            IConsoleApplicationHandler handler;
+
+            if (args.Length > 0 && string.Equals(args[0], CONSTANTS.TEXTS.ARGUMENT_FILE))
             {
-                new FileInputHandler().Handle(args, _applicationService);
+                handler = container.ResolveKeyed<IConsoleApplicationHandler>("file");
             }
             else
             {
-                new KeyboardInputHandler().Handle(args, _applicationService);
+                handler = container.ResolveKeyed<IConsoleApplicationHandler>("keyboard");
             }
-        }        
+            
+            handler.Handle(args, _applicationService);
+        }
     }
 }

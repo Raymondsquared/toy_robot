@@ -1,6 +1,8 @@
 ﻿using Autofac;
+using ToyRobot.Abstractions;
 using ToyRobot.Core.Abstractions;
 using ToyRobot.Core.Models;
+using ToyRobot.Handler;
 using ToyRobot.Infrastructure;
 using ToyRobot.Infrastructure.Abstractions;
 using ToyRobot.Infrastructure.Helpers;
@@ -29,7 +31,17 @@ namespace ToyRobot.IoC
 
             //Command - Receiver Provider
             builder.RegisterType<ReceiverProvider>()
-                .As<IProvider<Receiver>>();            
+                .As<IProvider<Receiver>>();
+
+
+            /* Input Handler Strategies */
+            builder.RegisterType<FileInputHandler>()
+                .As<IConsoleApplicationHandler>()
+                .Keyed<IConsoleApplicationHandler>("file");
+
+            builder.RegisterType<KeyboardInputHandler>()
+                .As<IConsoleApplicationHandler>()
+                .Keyed<IConsoleApplicationHandler>("keyboard");
         }
     }
 }
