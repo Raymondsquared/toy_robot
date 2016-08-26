@@ -4,7 +4,6 @@ using ToyRobot.Infrastructure;
 using ToyRobot.Infrastructure.Abstractions;
 using ToyRobot.Infrastructure.Exceptions;
 using ToyRobot.Infrastructure.Helpers;
-using ToyRobot.Infrastructure.Loggers;
 
 namespace ToyRobot.Core.Commands.Implementations
 {

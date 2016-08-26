@@ -6,7 +6,6 @@ using ToyRobot.Handler;
 using ToyRobot.Infrastructure;
 using ToyRobot.Infrastructure.Abstractions;
 using ToyRobot.Infrastructure.Helpers;
-using ToyRobot.Infrastructure.Loggers;
 using ToyRobot.Providers;
 
 namespace ToyRobot.IoC

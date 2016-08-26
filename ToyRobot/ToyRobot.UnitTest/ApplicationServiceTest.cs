@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ToyRobot.Abstractions;
 using ToyRobot.Core.Abstractions;
 using ToyRobot.Core.Models;
 using ToyRobot.Infrastructure;
@@ -11,108 +10,151 @@ namespace ToyRobot.UnitTest
     [TestClass]
     public class ApplicationServiceTest
     {
-        private static readonly Map _map = new TableTop(CONSTANTS.NUMBERS.TABLETOP_WIDTH, CONSTANTS.NUMBERS.TABLETOP_LENGTH);
-        private static readonly Receiver _receiver = new ReceiverProvider().Provide();
-
-        readonly IApplicationService _applicationService = new ApplicationService(_map, _receiver);
+        private static readonly Map _map = new TableTop(CONSTANTS.NUMBERS.TABLETOP_WIDTH, CONSTANTS.NUMBERS.TABLETOP_LENGTH);        
 
         [TestMethod]
         public void ShouldReturnFalseWithInvalidInput()
         {
-            Assert.IsFalse(_applicationService.Process("ABC"));
+            var receiver = new ReceiverProvider().Provide();
+            var applicationService = new ApplicationService(_map, receiver);
+            Assert.IsFalse(applicationService.Process("ABC"));
         }
 
         [TestMethod]
         public void ShouldReturnFalseWithEmptyInput()
         {
-            Assert.IsFalse(_applicationService.Process(""));
+            var receiver = new ReceiverProvider().Provide();
+            var applicationService = new ApplicationService(_map, receiver);
+            Assert.IsFalse(applicationService.Process(""));
         }
 
         [TestMethod]
         public void ShouldReturnFalseWithInvalidPlace()
         {
-            Assert.IsFalse(_applicationService.Process("PLACE"));
-            Assert.IsFalse(_applicationService.Process("PLACE 1"));
-            Assert.IsFalse(_applicationService.Process("PLACE 1,2"));
-            Assert.IsFalse(_applicationService.Process("PLACE 1,2,3"));
-            Assert.IsFalse(_applicationService.Process("PLACE 1,2,ABC"));
+            var receiver = new ReceiverProvider().Provide();
+            var applicationService = new ApplicationService(_map, receiver);
+            Assert.IsFalse(applicationService.Process("PLACE"));
+            Assert.IsFalse(applicationService.Process("PLACE 1"));
+            Assert.IsFalse(applicationService.Process("PLACE 1,2"));
+            Assert.IsFalse(applicationService.Process("PLACE 1,2,3"));
+            Assert.IsFalse(applicationService.Process("PLACE 1,2,ABC"));
         }
 
         [TestMethod]
         public void ShouldReturnTrueWithValidPlace()
         {
-            Assert.IsTrue(_applicationService.Process("PLACE 1,2,NORTH"));
-            Assert.AreEqual(_receiver.Map, _map);
-            Assert.AreEqual(_receiver.X, 1);
-            Assert.AreEqual(_receiver.Y, 2);
-            Assert.AreEqual(_receiver.Direction, ENUMERATIONS.DIRECTIONS.NORTH);
-            Assert.AreEqual(_receiver.IsValid, true);
+            var receiver = new ReceiverProvider().Provide();
+            var applicationService = new ApplicationService(_map, receiver);
+            Assert.IsTrue(applicationService.Process("PLACE 1,2,NORTH"));
+            Assert.AreEqual(receiver.Map, _map);
+            Assert.AreEqual(receiver.X, 1);
+            Assert.AreEqual(receiver.Y, 2);
+            Assert.AreEqual(receiver.Direction, ENUMERATIONS.DIRECTIONS.NORTH);
+            Assert.AreEqual(receiver.IsValid, true);
         }
 
         public void ShouldReturnFalseWithExtraOnOtherMethods()
         {
-            Assert.IsFalse(_applicationService.Process("MOVE 1"));
-            Assert.IsFalse(_applicationService.Process("LEFT 2"));
-            Assert.IsFalse(_applicationService.Process("RIGHT LEFT"));
-            Assert.IsFalse(_applicationService.Process("REPORT 123"));
+            var receiver = new ReceiverProvider().Provide();
+            var applicationService = new ApplicationService(_map, receiver);
+            Assert.IsFalse(applicationService.Process("MOVE 1"));
+            Assert.IsFalse(applicationService.Process("LEFT 2"));
+            Assert.IsFalse(applicationService.Process("RIGHT LEFT"));
+            Assert.IsFalse(applicationService.Process("REPORT 123"));
         }
 
 
         [TestMethod]
         public void ShouldReturnTrueWithValidMove()
         {
-            Assert.IsTrue(_applicationService.Process("PLACE 1,2,NORTH"));
-            Assert.IsTrue(_applicationService.Process("MOVE"));
-            Assert.AreEqual(_receiver.Map, _map);
-            Assert.AreEqual(_receiver.X, 1);
-            Assert.AreEqual(_receiver.Y, 3);
-            Assert.AreEqual(_receiver.Direction, ENUMERATIONS.DIRECTIONS.NORTH);
-            Assert.AreEqual(_receiver.IsValid, true);
+            var receiver = new ReceiverProvider().Provide();
+            var applicationService = new ApplicationService(_map, receiver);
+            Assert.IsTrue(applicationService.Process("PLACE 1,2,NORTH"));
+            Assert.IsTrue(applicationService.Process("MOVE"));
+            Assert.AreEqual(receiver.Map, _map);
+            Assert.AreEqual(receiver.X, 1);
+            Assert.AreEqual(receiver.Y, 3);
+            Assert.AreEqual(receiver.Direction, ENUMERATIONS.DIRECTIONS.NORTH);
+            Assert.AreEqual(receiver.IsValid, true);
         }
+
+
+        [TestMethod]
+        public void ShouldIgnoreCommandsBeforePlace()
+        {
+            var receiver = new ReceiverProvider().Provide();
+            var applicationService = new ApplicationService(_map, receiver);
+            Assert.IsTrue(applicationService.Process("MOVE"));
+            Assert.IsTrue(applicationService.Process("LEFT"));
+            Assert.IsTrue(applicationService.Process("MOVE"));
+            Assert.IsTrue(applicationService.Process("RIGHT"));
+            Assert.IsNull(receiver.Map);
+            Assert.AreEqual(receiver.X, 0);
+            Assert.AreEqual(receiver.Y, 0);
+            Assert.AreEqual(receiver.Direction, ENUMERATIONS.DIRECTIONS.UNKNOWN);
+            Assert.AreEqual(receiver.IsValid, false);
+            Assert.IsTrue(applicationService.Process("PLACE 1,1,NORTH"));
+            Assert.IsTrue(applicationService.Process("MOVE"));
+            Assert.IsTrue(applicationService.Process("RIGHT"));
+            Assert.AreEqual(receiver.Map, _map);
+            Assert.AreEqual(receiver.X, 1);
+            Assert.AreEqual(receiver.Y, 2);
+            Assert.AreEqual(receiver.Direction, ENUMERATIONS.DIRECTIONS.EAST);
+            Assert.AreEqual(receiver.IsValid, true);
+        }
+
 
         [TestMethod]
         public void ShouldReturnTrueWithValidLeft()
-        {            
-            Assert.IsTrue(_applicationService.Process("PLACE 1,2,NORTH"));
-            Assert.IsTrue(_applicationService.Process("LEFT"));
-            Assert.AreEqual(_receiver.Map, _map);
-            Assert.AreEqual(_receiver.X, 1);
-            Assert.AreEqual(_receiver.Y, 2);
-            Assert.AreEqual(_receiver.Direction, ENUMERATIONS.DIRECTIONS.WEST);
-            Assert.AreEqual(_receiver.IsValid, true);
+        {
+            var receiver = new ReceiverProvider().Provide();
+            var applicationService = new ApplicationService(_map, receiver);
+            Assert.IsTrue(applicationService.Process("PLACE 1,2,NORTH"));
+            Assert.IsTrue(applicationService.Process("LEFT"));
+            Assert.AreEqual(receiver.Map, _map);
+            Assert.AreEqual(receiver.X, 1);
+            Assert.AreEqual(receiver.Y, 2);
+            Assert.AreEqual(receiver.Direction, ENUMERATIONS.DIRECTIONS.WEST);
+            Assert.AreEqual(receiver.IsValid, true);
         }
 
         [TestMethod]
         public void ShouldReturnTrueWithValidRight()
         {
-            Assert.IsTrue(_applicationService.Process("PLACE 1,2,NORTH"));
-            Assert.IsTrue(_applicationService.Process("RIGHT"));
-            Assert.AreEqual(_receiver.Map, _map);
-            Assert.AreEqual(_receiver.X, 1);
-            Assert.AreEqual(_receiver.Y, 2);
-            Assert.AreEqual(_receiver.Direction, ENUMERATIONS.DIRECTIONS.EAST);
-            Assert.AreEqual(_receiver.IsValid, true);
+            var receiver = new ReceiverProvider().Provide();
+            var applicationService = new ApplicationService(_map, receiver);
+            Assert.IsTrue(applicationService.Process("PLACE 1,2,NORTH"));
+            Assert.IsTrue(applicationService.Process("RIGHT"));
+            Assert.AreEqual(receiver.Map, _map);
+            Assert.AreEqual(receiver.X, 1);
+            Assert.AreEqual(receiver.Y, 2);
+            Assert.AreEqual(receiver.Direction, ENUMERATIONS.DIRECTIONS.EAST);
+            Assert.AreEqual(receiver.IsValid, true);
         }
 
         [TestMethod]
         public void ShouldReturnTrueWithValidReport()
         {
-            Assert.IsTrue(_applicationService.Process("REPORT"));
+            var receiver = new ReceiverProvider().Provide();
+            var applicationService = new ApplicationService(_map, receiver);
+            Assert.IsTrue(applicationService.Process("REPORT"));
         }
 
 
         [TestMethod]
         public void ShouldIgnoreAllCommandBeforePlace()
         {
-            Assert.IsTrue(_applicationService.Process("MOVE"));
-            Assert.IsTrue(_applicationService.Process("LEFT"));
-            Assert.IsTrue(_applicationService.Process("LEFT"));
-            Assert.IsTrue(_applicationService.Process("PLACE 1,2,NORTH"));
-            Assert.IsTrue(_applicationService.Process("LEFT"));
+            var receiver = new ReceiverProvider().Provide();
+            var applicationService = new ApplicationService(_map, receiver);
+            Assert.IsTrue(applicationService.Process("MOVE"));
+            Assert.IsTrue(applicationService.Process("LEFT"));
+            Assert.IsTrue(applicationService.Process("LEFT"));
+            Assert.IsTrue(applicationService.Process("PLACE 1,2,NORTH"));
+            Assert.IsTrue(applicationService.Process("LEFT"));
 
-            Assert.AreEqual(_receiver.X, 1);
-            Assert.AreEqual(_receiver.Y, 2);
-            Assert.AreEqual(_receiver.Direction, ENUMERATIONS.DIRECTIONS.WEST);
+            Assert.AreEqual(receiver.X, 1);
+            Assert.AreEqual(receiver.Y, 2);
+            Assert.AreEqual(receiver.Direction, ENUMERATIONS.DIRECTIONS.WEST);
         }
     }
 }

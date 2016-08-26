@@ -1,8 +1,6 @@
-﻿using System;
-using Autofac;
+﻿using Autofac;
 using ToyRobot.Abstractions;
 using ToyRobot.Core.Abstractions;
-using ToyRobot.Handler;
 using ToyRobot.Infrastructure;
 using ToyRobot.Infrastructure.Abstractions;
 using ToyRobot.IoC;

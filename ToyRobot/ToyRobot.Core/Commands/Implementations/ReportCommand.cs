@@ -2,7 +2,6 @@
 using ToyRobot.Core.Abstractions;
 using ToyRobot.Infrastructure.Abstractions;
 using ToyRobot.Infrastructure.Helpers;
-using ToyRobot.Infrastructure.Loggers;
 
 namespace ToyRobot.Core.Commands.Implementations
 {

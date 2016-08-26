@@ -51,6 +51,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ApplicationServiceTest.cs" />
+    <Compile Include="ReportCommandTest.cs" />
     <Compile Include="TurnCommandTest.cs" />
     <Compile Include="MoveCommandTest.cs" />
     <Compile Include="PlaceCommandTest.cs" />

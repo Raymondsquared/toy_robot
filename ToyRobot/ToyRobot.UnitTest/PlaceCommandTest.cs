@@ -29,7 +29,7 @@ namespace ToyRobot.UnitTest
             Assert.IsNull(receiver.Map);
             Assert.AreEqual(receiver.X, 0);
             Assert.AreEqual(receiver.Y, 0);
-            Assert.AreEqual(receiver.Direction, ENUMERATIONS.DIRECTIONS.NORTH);
+            Assert.AreEqual(receiver.Direction, ENUMERATIONS.DIRECTIONS.UNKNOWN);
             Assert.AreEqual(receiver.IsValid, false);
 
             var command2 = new PlaceCommand(receiver, map, 2, -2, ENUMERATIONS.DIRECTIONS.NORTH);
@@ -37,7 +37,7 @@ namespace ToyRobot.UnitTest
             Assert.IsNull(receiver.Map);
             Assert.AreEqual(receiver.X, 0);
             Assert.AreEqual(receiver.Y, 0);
-            Assert.AreEqual(receiver.Direction, ENUMERATIONS.DIRECTIONS.NORTH);
+            Assert.AreEqual(receiver.Direction, ENUMERATIONS.DIRECTIONS.UNKNOWN);
             Assert.AreEqual(receiver.IsValid, false);
         }
 
@@ -53,7 +53,7 @@ namespace ToyRobot.UnitTest
             Assert.IsNull(receiver.Map);
             Assert.AreEqual(receiver.X, 0);
             Assert.AreEqual(receiver.Y, 0);
-            Assert.AreEqual(receiver.Direction, ENUMERATIONS.DIRECTIONS.NORTH);
+            Assert.AreEqual(receiver.Direction, ENUMERATIONS.DIRECTIONS.UNKNOWN);
             Assert.AreEqual(receiver.IsValid, false);
 
             var command2 = new PlaceCommand(receiver, map, 2, 8, ENUMERATIONS.DIRECTIONS.NORTH);
@@ -61,7 +61,7 @@ namespace ToyRobot.UnitTest
             Assert.IsNull(receiver.Map);
             Assert.AreEqual(receiver.X, 0);
             Assert.AreEqual(receiver.Y, 0);
-            Assert.AreEqual(receiver.Direction, ENUMERATIONS.DIRECTIONS.NORTH);
+            Assert.AreEqual(receiver.Direction, ENUMERATIONS.DIRECTIONS.UNKNOWN);
             Assert.AreEqual(receiver.IsValid, false);
         }
 

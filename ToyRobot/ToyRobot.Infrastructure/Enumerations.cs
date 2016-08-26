@@ -7,11 +7,11 @@
     {
         public enum DIRECTIONS
         {
+            UNKNOWN,
             NORTH,
             EAST,
             SOUTH,
-            WEST,
-            UNKNOWN
+            WEST
         }
 
         public enum TURNS
