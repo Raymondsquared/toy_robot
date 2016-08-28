@@ -12,6 +12,11 @@ namespace ToyRobot.Core.Abstractions
         public int Y { get; set; }
         public ENUMERATIONS.DIRECTIONS Direction { get; set; }
         public bool IsValid { get; set; }
+
+        public abstract void Place(Map map, int x, int y, ENUMERATIONS.DIRECTIONS direction);
+        public abstract void Move();
+        public abstract void Turn(ENUMERATIONS.TURNS turn);
+        public abstract void Report();
     }
 }
 

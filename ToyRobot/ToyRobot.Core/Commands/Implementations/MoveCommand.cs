@@ -1,5 +1,6 @@
-﻿using ToyRobot.Core.Abstractions;
-using ToyRobot.Infrastructure;
+﻿using System;
+using System.Collections.Generic;
+using ToyRobot.Core.Abstractions;
 using ToyRobot.Infrastructure.Abstractions;
 using ToyRobot.Infrastructure.Helpers;
 
@@ -14,36 +15,28 @@ namespace ToyRobot.Core.Commands.Implementations
     ///</remarks>
     public class MoveCommand : Command
     {
-        private readonly Receiver _receiver;
+        private readonly IEnumerable<Receiver> _receivers;
 
-        public MoveCommand(Receiver receiver)
+        public MoveCommand(IEnumerable<Receiver> receivers)
         {
-            _receiver = receiver;
+            _receivers = receivers;
         }
 
         public override void Execute()
         {
-            if (_receiver.IsValid)
+            foreach (var receiver in _receivers)
             {
-                switch (_receiver.Direction)
+                try
                 {
-                    case ENUMERATIONS.DIRECTIONS.NORTH:
-                        if (_receiver.Y < _receiver.Map.Width) _receiver.Y++;
-                        break;
-                    case ENUMERATIONS.DIRECTIONS.EAST:
-                        if (_receiver.X < _receiver.Map.Length) _receiver.X++;
-                        break;
-                    case ENUMERATIONS.DIRECTIONS.SOUTH:
-                        if (_receiver.Y > 0) _receiver.Y--;
-                        break;
-                    case ENUMERATIONS.DIRECTIONS.WEST:
-                        if (_receiver.X > 0) _receiver.X--;
-                        break;
-                    case ENUMERATIONS.DIRECTIONS.UNKNOWN:
-                        LoggerHelper.Warn("Unknown direction!");
-                        break;
+                    receiver.Move();
+                }
+                catch (Exception ex)
+                {
+                    LoggerHelper.Error(ex, "Receiver {0} throws an exception on move command", receiver.GetType().Name);
+                    throw;
                 }
             }
+            LoggerHelper.Info("receiver's move method has been triggered");
         }
     }
 }

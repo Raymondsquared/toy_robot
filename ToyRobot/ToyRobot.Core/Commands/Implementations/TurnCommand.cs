@@ -1,4 +1,6 @@
-﻿using ToyRobot.Core.Abstractions;
+﻿using System;
+using System.Collections.Generic;
+using ToyRobot.Core.Abstractions;
 using ToyRobot.Infrastructure;
 using ToyRobot.Infrastructure.Abstractions;
 using ToyRobot.Infrastructure.Helpers;
@@ -14,42 +16,30 @@ namespace ToyRobot.Core.Commands.Implementations
     ///</remarks>
     public class TurnCommand : Command
     {
-        private readonly Receiver _receiver;
+        private readonly IEnumerable<Receiver> _receivers;
         private readonly ENUMERATIONS.TURNS _turn;
 
-        public TurnCommand(Receiver receiver, ENUMERATIONS.TURNS turn)
+        public TurnCommand(IEnumerable<Receiver> receivers, ENUMERATIONS.TURNS turn)
         {
-            _receiver = receiver;
+            _receivers = receivers;
             _turn = turn;
         }
 
         public override void Execute()
         {
-            if (_receiver.IsValid)
+            foreach (var receiver in _receivers)
             {
-                switch (_receiver.Direction)
+                try
                 {
-                    case ENUMERATIONS.DIRECTIONS.NORTH:
-                        if (_turn == ENUMERATIONS.TURNS.LEFT) _receiver.Direction = ENUMERATIONS.DIRECTIONS.WEST;
-                        if (_turn == ENUMERATIONS.TURNS.RIGHT) _receiver.Direction = ENUMERATIONS.DIRECTIONS.EAST;
-                        break;
-                    case ENUMERATIONS.DIRECTIONS.EAST:
-                        if (_turn == ENUMERATIONS.TURNS.LEFT) _receiver.Direction = ENUMERATIONS.DIRECTIONS.NORTH;
-                        if (_turn == ENUMERATIONS.TURNS.RIGHT) _receiver.Direction = ENUMERATIONS.DIRECTIONS.SOUTH;
-                        break;
-                    case ENUMERATIONS.DIRECTIONS.SOUTH:
-                        if (_turn == ENUMERATIONS.TURNS.LEFT) _receiver.Direction = ENUMERATIONS.DIRECTIONS.EAST;
-                        if (_turn == ENUMERATIONS.TURNS.RIGHT) _receiver.Direction = ENUMERATIONS.DIRECTIONS.WEST;
-                        break;
-                    case ENUMERATIONS.DIRECTIONS.WEST:
-                        if (_turn == ENUMERATIONS.TURNS.LEFT) _receiver.Direction = ENUMERATIONS.DIRECTIONS.SOUTH;
-                        if (_turn == ENUMERATIONS.TURNS.RIGHT) _receiver.Direction = ENUMERATIONS.DIRECTIONS.NORTH;
-                        break;
-                    case ENUMERATIONS.DIRECTIONS.UNKNOWN:
-                        LoggerHelper.Warn($"invalid direction");
-                        break;
+                    receiver.Turn(_turn);
+                }
+                catch (Exception ex)
+                {
+                    LoggerHelper.Error(ex, "Receiver {0} throws an exception on turn command", receiver.GetType().Name);
+                    throw;
                 }
             }
+            LoggerHelper.Info("receiver's turn method has been triggered");
         }
     }
 }

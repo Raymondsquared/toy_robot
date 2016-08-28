@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ToyRobot.Core.Abstractions;
 using ToyRobot.Infrastructure.Abstractions;
 using ToyRobot.Infrastructure.Helpers;
@@ -14,21 +15,28 @@ namespace ToyRobot.Core.Commands.Implementations
     ///</remarks>
     public class ReportCommand : Command
     {
-        private readonly Receiver _receiver;
+        private readonly IEnumerable<Receiver> _receivers;
 
-        public ReportCommand(Receiver receiver)
+        public ReportCommand(IEnumerable<Receiver> receivers)
         {
-            _receiver = receiver;
+            _receivers = receivers;
         }
 
         public override void Execute()
         {
-            if (_receiver.IsValid)
+            foreach (var receiver in _receivers)
             {
-                var report = $"Reporting from : {_receiver.X},{_receiver.Y},{_receiver.Direction}";
-                LoggerHelper.Info(report);
-                Console.WriteLine(report);
+                try
+                {
+                    receiver.Report();
+                }
+                catch (Exception ex)
+                {
+                    LoggerHelper.Error(ex, "Receiver {0} throws an exception on report command", receiver.GetType().Name);
+                    throw;
+                }
             }
+            LoggerHelper.Info("receiver's report method has been triggered");
         }
     }
 }

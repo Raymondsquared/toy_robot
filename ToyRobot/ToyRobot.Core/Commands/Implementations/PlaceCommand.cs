@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using ToyRobot.Core.Abstractions;
 using ToyRobot.Infrastructure;
 using ToyRobot.Infrastructure.Abstractions;
-using ToyRobot.Infrastructure.Exceptions;
 using ToyRobot.Infrastructure.Helpers;
 
 namespace ToyRobot.Core.Commands.Implementations
@@ -17,15 +17,15 @@ namespace ToyRobot.Core.Commands.Implementations
     ///</remarks>
     public class PlaceCommand : Command
     {
-        private readonly Receiver _receiver;
+        private readonly IEnumerable<Receiver> _receivers;
         private readonly Map _map;
         private readonly int _x;
         private readonly int _y;
         private readonly ENUMERATIONS.DIRECTIONS _direction;
 
-        public PlaceCommand(Receiver receiver, Map map, int x, int y, ENUMERATIONS.DIRECTIONS direction)
+        public PlaceCommand(IEnumerable<Receiver> receivers, Map map, int x, int y, ENUMERATIONS.DIRECTIONS direction)
         {
-            _receiver = receiver;
+            _receivers = receivers;
             _map = map;
             _x = x;
             _y = y;
@@ -38,52 +38,19 @@ namespace ToyRobot.Core.Commands.Implementations
          */
         public override void Execute()
         {
-            var isValid = true;
-
-            try
+            foreach (var receiver in _receivers)
             {
-                //validate map
-                if (_map == null)
+                try
                 {
-                    isValid = false;
-                    var ire = new InvalidReceiverException("can't place receiver in nothing");
-                    LoggerHelper.Error(ire, "no map available");
-                    throw ire;
+                    receiver.Place(_map, _x, _y, _direction);
                 }
-
-                //check location for negative values
-                if (_x < 0 || _y < 0)
+                catch (Exception ex)
                 {
-                    isValid = false;
-                    LoggerHelper.Warn("x or y is less than 0");
-                }
-
-                //check location for outbound values
-                if (_x > _map?.Width || _y > _map?.Length)
-                {
-                    LoggerHelper.Warn("x or y is larger than the map");
-                    isValid = false;
+                    LoggerHelper.Error(ex, "Receiver {0} throws an exception on place command", receiver.GetType().Name);
+                    throw;
                 }
             }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                _receiver.IsValid = isValid;
-
-                if (isValid)
-                {
-                    _receiver.Map = _map;
-                    _receiver.X = _x;
-                    _receiver.Y = _y;
-                    _receiver.Direction = _direction;
-
-                    LoggerHelper.Info("object has been placed and is valid is true");
-                }
-            }            
-
+            LoggerHelper.Info("receiver's place method has been triggered");
         }
     }
 }

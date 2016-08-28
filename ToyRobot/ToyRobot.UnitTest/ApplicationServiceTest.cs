@@ -43,14 +43,18 @@ namespace ToyRobot.UnitTest
         [TestMethod]
         public void ShouldReturnTrueWithValidPlace()
         {
-            var receiver = new ReceiverProvider().Provide();
-            var applicationService = new ApplicationService(_map, receiver);
+            var receivers = new ReceiverProvider().Provide();
+            var applicationService = new ApplicationService(_map, receivers);
             Assert.IsTrue(applicationService.Process("PLACE 1,2,NORTH"));
-            Assert.AreEqual(receiver.Map, _map);
-            Assert.AreEqual(receiver.X, 1);
-            Assert.AreEqual(receiver.Y, 2);
-            Assert.AreEqual(receiver.Direction, ENUMERATIONS.DIRECTIONS.NORTH);
-            Assert.AreEqual(receiver.IsValid, true);
+
+            foreach (var receiver in receivers)
+            {
+                Assert.AreEqual(receiver.Map, _map);
+                Assert.AreEqual(receiver.X, 1);
+                Assert.AreEqual(receiver.Y, 2);
+                Assert.AreEqual(receiver.Direction, ENUMERATIONS.DIRECTIONS.NORTH);
+                Assert.AreEqual(receiver.IsValid, true);
+            }
         }
 
         public void ShouldReturnFalseWithExtraOnOtherMethods()
@@ -67,69 +71,92 @@ namespace ToyRobot.UnitTest
         [TestMethod]
         public void ShouldReturnTrueWithValidMove()
         {
-            var receiver = new ReceiverProvider().Provide();
-            var applicationService = new ApplicationService(_map, receiver);
+            var receivers = new ReceiverProvider().Provide();
+            var applicationService = new ApplicationService(_map, receivers);
+            
             Assert.IsTrue(applicationService.Process("PLACE 1,2,NORTH"));
             Assert.IsTrue(applicationService.Process("MOVE"));
-            Assert.AreEqual(receiver.Map, _map);
-            Assert.AreEqual(receiver.X, 1);
-            Assert.AreEqual(receiver.Y, 3);
-            Assert.AreEqual(receiver.Direction, ENUMERATIONS.DIRECTIONS.NORTH);
-            Assert.AreEqual(receiver.IsValid, true);
+
+            foreach (var receiver in receivers)
+            {
+                Assert.AreEqual(receiver.Map, _map);
+                Assert.AreEqual(receiver.X, 1);
+                Assert.AreEqual(receiver.Y, 3);
+                Assert.AreEqual(receiver.Direction, ENUMERATIONS.DIRECTIONS.NORTH);
+                Assert.AreEqual(receiver.IsValid, true);
+            }
         }
 
 
         [TestMethod]
         public void ShouldIgnoreCommandsBeforePlace()
         {
-            var receiver = new ReceiverProvider().Provide();
-            var applicationService = new ApplicationService(_map, receiver);
+            var receivers = new ReceiverProvider().Provide();
+            var applicationService = new ApplicationService(_map, receivers);
             Assert.IsTrue(applicationService.Process("MOVE"));
             Assert.IsTrue(applicationService.Process("LEFT"));
             Assert.IsTrue(applicationService.Process("MOVE"));
             Assert.IsTrue(applicationService.Process("RIGHT"));
-            Assert.IsNull(receiver.Map);
-            Assert.AreEqual(receiver.X, 0);
-            Assert.AreEqual(receiver.Y, 0);
-            Assert.AreEqual(receiver.Direction, ENUMERATIONS.DIRECTIONS.UNKNOWN);
-            Assert.AreEqual(receiver.IsValid, false);
+
+            foreach (var receiver in receivers)
+            {
+                Assert.IsNull(receiver.Map);
+                Assert.AreEqual(receiver.X, 0);
+                Assert.AreEqual(receiver.Y, 0);
+                Assert.AreEqual(receiver.Direction, ENUMERATIONS.DIRECTIONS.UNKNOWN);
+                Assert.AreEqual(receiver.IsValid, false);
+            }
+
             Assert.IsTrue(applicationService.Process("PLACE 1,1,NORTH"));
             Assert.IsTrue(applicationService.Process("MOVE"));
             Assert.IsTrue(applicationService.Process("RIGHT"));
-            Assert.AreEqual(receiver.Map, _map);
-            Assert.AreEqual(receiver.X, 1);
-            Assert.AreEqual(receiver.Y, 2);
-            Assert.AreEqual(receiver.Direction, ENUMERATIONS.DIRECTIONS.EAST);
-            Assert.AreEqual(receiver.IsValid, true);
+
+
+            foreach (var receiver in receivers)
+            {
+                Assert.AreEqual(receiver.Map, _map);
+                Assert.AreEqual(receiver.X, 1);
+                Assert.AreEqual(receiver.Y, 2);
+                Assert.AreEqual(receiver.Direction, ENUMERATIONS.DIRECTIONS.EAST);
+                Assert.AreEqual(receiver.IsValid, true);
+            }
         }
 
 
         [TestMethod]
         public void ShouldReturnTrueWithValidLeft()
         {
-            var receiver = new ReceiverProvider().Provide();
-            var applicationService = new ApplicationService(_map, receiver);
+            var receivers = new ReceiverProvider().Provide();
+            var applicationService = new ApplicationService(_map, receivers);
             Assert.IsTrue(applicationService.Process("PLACE 1,2,NORTH"));
             Assert.IsTrue(applicationService.Process("LEFT"));
-            Assert.AreEqual(receiver.Map, _map);
-            Assert.AreEqual(receiver.X, 1);
-            Assert.AreEqual(receiver.Y, 2);
-            Assert.AreEqual(receiver.Direction, ENUMERATIONS.DIRECTIONS.WEST);
-            Assert.AreEqual(receiver.IsValid, true);
+
+            foreach (var receiver in receivers)
+            {
+                Assert.AreEqual(receiver.Map, _map);
+                Assert.AreEqual(receiver.X, 1);
+                Assert.AreEqual(receiver.Y, 2);
+                Assert.AreEqual(receiver.Direction, ENUMERATIONS.DIRECTIONS.WEST);
+                Assert.AreEqual(receiver.IsValid, true);
+            }
         }
 
         [TestMethod]
         public void ShouldReturnTrueWithValidRight()
         {
-            var receiver = new ReceiverProvider().Provide();
-            var applicationService = new ApplicationService(_map, receiver);
+            var receivers = new ReceiverProvider().Provide();
+            var applicationService = new ApplicationService(_map, receivers);
             Assert.IsTrue(applicationService.Process("PLACE 1,2,NORTH"));
             Assert.IsTrue(applicationService.Process("RIGHT"));
-            Assert.AreEqual(receiver.Map, _map);
-            Assert.AreEqual(receiver.X, 1);
-            Assert.AreEqual(receiver.Y, 2);
-            Assert.AreEqual(receiver.Direction, ENUMERATIONS.DIRECTIONS.EAST);
-            Assert.AreEqual(receiver.IsValid, true);
+
+            foreach (var receiver in receivers)
+            {
+                Assert.AreEqual(receiver.Map, _map);
+                Assert.AreEqual(receiver.X, 1);
+                Assert.AreEqual(receiver.Y, 2);
+                Assert.AreEqual(receiver.Direction, ENUMERATIONS.DIRECTIONS.EAST);
+                Assert.AreEqual(receiver.IsValid, true);
+            }
         }
 
         [TestMethod]
@@ -144,17 +171,20 @@ namespace ToyRobot.UnitTest
         [TestMethod]
         public void ShouldIgnoreAllCommandBeforePlace()
         {
-            var receiver = new ReceiverProvider().Provide();
-            var applicationService = new ApplicationService(_map, receiver);
+            var receivers = new ReceiverProvider().Provide();
+            var applicationService = new ApplicationService(_map, receivers);
             Assert.IsTrue(applicationService.Process("MOVE"));
             Assert.IsTrue(applicationService.Process("LEFT"));
             Assert.IsTrue(applicationService.Process("LEFT"));
             Assert.IsTrue(applicationService.Process("PLACE 1,2,NORTH"));
             Assert.IsTrue(applicationService.Process("LEFT"));
 
-            Assert.AreEqual(receiver.X, 1);
-            Assert.AreEqual(receiver.Y, 2);
-            Assert.AreEqual(receiver.Direction, ENUMERATIONS.DIRECTIONS.WEST);
+            foreach (var receiver in receivers)
+            {
+                Assert.AreEqual(receiver.X, 1);
+                Assert.AreEqual(receiver.Y, 2);
+                Assert.AreEqual(receiver.Direction, ENUMERATIONS.DIRECTIONS.WEST);
+            }
         }
     }
 }

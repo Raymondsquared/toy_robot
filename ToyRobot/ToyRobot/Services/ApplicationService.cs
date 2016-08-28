@@ -18,15 +18,15 @@ namespace ToyRobot.Services
     ///</summary>
     public class ApplicationService : IApplicationService
     {
-        private readonly IProvider<IEnumerable<string>> _commandProvider;
+        private readonly IProvider<string> _commandProvider;
         private readonly Map _map;
-        private readonly Receiver _receiver;
+        private readonly IEnumerable<Receiver> _receivers;
 
-        public ApplicationService(Map map, Receiver receiver)
+        public ApplicationService(Map map, IEnumerable<Receiver> receivers)
         {
             _commandProvider = new CommandProvider();
             _map = map;
-            _receiver = receiver;
+            _receivers = receivers;
         }
 
         /* 
@@ -51,7 +51,7 @@ namespace ToyRobot.Services
 
                 // create command Object from factory method pattern
                 if (cmdParams != null)
-                    command = CommandFactory.Create(cmdParams, _receiver, _map);
+                    command = CommandFactory.Create(cmdParams, _receivers, _map);
             }
             catch (Exception)
             {

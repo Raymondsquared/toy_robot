@@ -1,4 +1,5 @@
-﻿using ToyRobot.Core.Abstractions;
+﻿using System.Collections.Generic;
+using ToyRobot.Core.Abstractions;
 using ToyRobot.Infrastructure.Abstractions;
 
 namespace ToyRobot.Providers
@@ -8,9 +9,13 @@ namespace ToyRobot.Providers
     ///</summary>
     public class ReceiverProvider : IProvider<Receiver>
     {
-        public Receiver Provide()
+        public IEnumerable<Receiver> Provide()
         {
-            return new Core.Models.Robot();
+            return new List<Receiver>()
+            {
+                new Core.Models.Robot()
+            };
+
         }
     }
 }
