@@ -4,12 +4,18 @@ using ToyRobot.Core.Abstractions;
 using ToyRobot.Core.Commands.Implementations;
 using ToyRobot.Core.Models;
 using ToyRobot.Infrastructure;
+using ToyRobot.UnitTest.Models;
 
 namespace ToyRobot.UnitTest
 {
     [TestClass]
     public class ReportCommandTest
     {
+        [TestInitialize]
+        public void Initialize()
+        {
+
+        }
 
         [TestMethod]
         public void ShouldReturnWithValidDataForReportCommand()
@@ -75,6 +81,33 @@ namespace ToyRobot.UnitTest
                 Assert.AreEqual(receiver.Direction, ENUMERATIONS.DIRECTIONS.NORTH);
                 Assert.AreEqual(receiver.IsValid, true);
             }
+        }
+
+        [TestMethod]
+        public void OneReceiversExceptionShouldntBreakOtherReceiver()
+        {
+            var map = new TableTop(5, 5);
+            var robot = new Robot();
+            var brokenRobot = new BrokenRobot();
+            var receivers = new List<Receiver>() { robot, brokenRobot };
+
+            var command1 = new PlaceCommand(receivers, map, 1, 1, ENUMERATIONS.DIRECTIONS.WEST);
+            command1.Execute();
+
+            var command2 = new ReportCommand(receivers);
+            command2.Execute();
+
+            Assert.AreEqual(robot.Map, map);
+            Assert.AreEqual(robot.X, 1);
+            Assert.AreEqual(robot.Y, 1);
+            Assert.AreEqual(robot.Direction, ENUMERATIONS.DIRECTIONS.WEST);
+            Assert.IsTrue(robot.IsValid);
+
+            Assert.IsNull(brokenRobot.Map);
+            Assert.AreEqual(brokenRobot.X, 0);
+            Assert.AreEqual(brokenRobot.Y, 0);
+            Assert.AreEqual(brokenRobot.Direction, ENUMERATIONS.DIRECTIONS.UNKNOWN);
+            Assert.IsFalse(brokenRobot.IsValid);
         }
     }
 }
