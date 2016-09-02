@@ -36,7 +36,7 @@ namespace ToyRobot.Core.Commands.Implementations
                 catch (Exception ex)
                 {
                     LoggerHelper.Error(ex, "Receiver {0} throws an exception on turn command", receiver.GetType().Name);
-                    throw;
+                    //throw;
                 }
             }
             LoggerHelper.Info("receiver's turn method has been triggered");
